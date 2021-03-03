@@ -3,7 +3,7 @@ import * as pulumi from '@pulumi/pulumi';
 
 const stack = pulumi.getStack();
 
-const serviceName = 'example-serverless';
+const serviceName = 'serverless';
 const domain = CheckServerless.getDomainName(serviceName, stack);
 
 const flexWorkspace = new Resource("flex-workspace", {
