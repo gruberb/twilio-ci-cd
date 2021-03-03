@@ -1,0 +1,4 @@
+name: twilio-flex
+runtime: nodejs
+description: Managing a Flex project
+main: src/resources

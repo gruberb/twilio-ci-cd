@@ -1,0 +1,28 @@
+{
+  "name": "twilio-ci-cd",
+  "version": "1.0.0",
+  "description": "Example project to use Twilio with Pulumi in a CI/CD environment",
+  "main": "index.js",
+  "dependencies": {
+    "@pulumi/pulumi": "^2.21.2",
+    "twilio-pulumi-provider": "0.0.8"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.31",
+    "typescript": "^4.2.2"
+  },
+  "scripts": {
+    "ci:deploy-resources": "export $(cat .$BRANCH_NAME.env | xargs) && pulumi up --stack $BRANCH_NAME --yes",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gruberb/twilio-ci-cd.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gruberb/twilio-ci-cd/issues"
+  },
+  "homepage": "https://github.com/gruberb/twilio-ci-cd#readme"
+}
