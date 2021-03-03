@@ -21,6 +21,7 @@ const englishTaskQueue = new Resource("english-taskQueue", {
   }
 });
 
+
 const serverless = new Serverless("functions-assets", {
   attributes: {
       cwd: `../serverless/main`,
