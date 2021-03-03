@@ -21,7 +21,7 @@ const englishTaskQueue = new Resource("english-taskQueue", {
   }
 });
 
-const serverless = new Serverless("example-functions-assets", {
+const serverless = new Serverless("functions-assets", {
   attributes: {
       cwd: `../serverless/main`,
       serviceName,          
@@ -32,7 +32,7 @@ const serverless = new Serverless("example-functions-assets", {
 });
 
 
-const soundNotificationFlexPlugin = new FlexPlugin("example-sound-notification-flex-plugin", { 
+const soundNotificationFlexPlugin = new FlexPlugin("sound-notification-flex-plugin", { 
   attributes: {
       cwd: "../flex-plugins/plugin-sound-notification",
       env: pulumi.all([domain]).apply(([ domain ]) => (
