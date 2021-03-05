@@ -5,7 +5,12 @@
   "main": "index.js",
   "dependencies": {
     "@pulumi/pulumi": "^2.21.2",
-    "twilio-pulumi-provider": "0.0.8"
+    "@twilio-labs/serverless-api": "^4.1.0",
+    "dotenv": "^8.2.0",
+    "folder-hash": "^4.0.0",
+    "lodash": "^4.17.21",
+    "twilio": "^3.57.0",
+    "twilio-pulumi-provider": "file:../twilio-pulumi-provider"
   },
   "devDependencies": {
     "@types/node": "^14.14.31",
@@ -13,7 +18,10 @@
   },
   "scripts": {
     "ci:deploy-resources": "export $(cat .$BRANCH_NAME.env | xargs) && pulumi up --stack $BRANCH_NAME --yes",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "ci:preview-resources": "export $(cat .$BRANCH_NAME.env | xargs) && METHOD=preview pulumi preview --stack $BRANCH_NAME",
+    "deploy-resources": "export $(cat .dev.env | xargs) && pulumi up --stack $BRANCH_NAME",
+    "preview-resources": "export $(cat .dev.env | xargs) && METHOD=preview pulumi preview --stack $BRANCH_NAME",
+    "watch-resources": "export $(cat .dev.env | xargs) && pulumi watch --stack $BRANCH_NAME"
   },
   "repository": {
     "type": "git",
