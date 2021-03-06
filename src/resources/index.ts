@@ -9,33 +9,21 @@ const domain = CheckServerless.getDomainName(serviceName, stack);
 const flexWorkspace = new Resource("flex-workspace", {
   resource: ["taskrouter", "workspaces"],
   attributes: {
-      sid: process.env.FLEX_WORKFLOW_SID,
+      sid: process.env.WORKSPACE_SID,
   }
 });
 
 const anyoneTaskQueue = new Resource("eveyone-taskQueue", {
   resource: ["taskrouter", { "workspaces" : flexWorkspace.id }, "taskQueues"],
   attributes: {
-      targetWorkers: `1==1`,
-      friendlyName: 'Everyone',
+    sid: process.env.TASK_QUEUE_EVERYONE,
   }
 });
 
 const workflow = new Resource("anyone", {
   resource: ["taskrouter", { "workspaces" : flexWorkspace.sid }, "workflows"],
   attributes: {
-      friendlyName: 'Assign to Anyone',
-      configuration: pulumi.all([anyoneTaskQueue.sid])
-            .apply(([ anyoneTaskQueueSID ]) => JSON.stringify(
-                {
-                    task_routing: {
-                        filters: [],
-                        default_filter: {
-                          queue: anyoneTaskQueueSID
-                        }
-                    }
-                }
-            ))
+     sid: process.env.WORKFLOW_ANYONE,
   },
 });
 
