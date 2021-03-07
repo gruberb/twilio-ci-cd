@@ -9,7 +9,7 @@ exports.handler = async function(context, event, callback) {
 
   if (event.SequenceNumber == 2) {
     await client.conferences(event.ConferenceSid)
-      .update({announceUrl: 'https://handler.twilio.com/twiml/EHcf7c3e7a8b380e3d46ba60c7a0b92f49'})
+      .update({announceUrl: `https://handler.twilio.com/twiml/${process.env.TWIML_WHISPER}`})
       .then(conference => console.log(conference.friendlyName));
   }
 

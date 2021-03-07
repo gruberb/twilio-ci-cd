@@ -18,7 +18,7 @@ export default class ConferenceAnnouncementPlugin extends FlexPlugin {
     console.log("PLUGIN loaded");
 
     flex.Actions.addListener("beforeAcceptTask", (payload) => {
-      payload.conferenceOptions.conferenceStatusCallback = 'https://whisper-client-6776-dev.twil.io/set-client-announce';
+      payload.conferenceOptions.conferenceStatusCallback = `https://${process.env.REACT_APP_SERVERLESS_DOMAIN_NAME}/set-client-announce`;
       payload.conferenceOptions.conferenceStatusCallbackEvent = "join";
     });
   }

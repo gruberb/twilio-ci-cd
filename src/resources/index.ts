@@ -75,3 +75,16 @@ const soundNotificationFlexPlugin = new FlexPlugin("sound-notification-flex-plug
       runTestsOnPreview: true
   }
 });
+
+const conferenceAnnouncementFlexPlugin = new FlexPlugin("conference-announcement-flex-plugin", { 
+  attributes: {
+      cwd: "../flex-plugins/plugin-conference-announcement",
+      serviceName,
+      env: pulumi.all([domain]).apply(([ domain ]) => (
+          {
+              REACT_APP_SERVERLESSassets_DOMAIN_NAME: domain
+          }
+      )),
+      runTestsOnPreview: true
+  }
+});
