@@ -18,8 +18,10 @@ export default class ConferenceAnnouncementPlugin extends FlexPlugin {
     console.log("PLUGIN loaded");
 
     flex.Actions.addListener("beforeAcceptTask", (payload) => {
-      payload.conferenceOptions.conferenceStatusCallback = `https://${process.env.REACT_APP_SERVERLESS_DOMAIN_NAME}/set-client-announce`;
-      payload.conferenceOptions.conferenceStatusCallbackEvent = "join";
+  if (payload.channel == "voice") {
+        payload.conferenceOptions.conferenceStatusCallback = `https://${process.env.REACT_APP_SERVERLESS_DOMAIN_NAME}/set-client-announce`;
+        payload.conferenceOptions.conferenceStatusCallbackEvent = "join";
+      }
     });
   }
 }

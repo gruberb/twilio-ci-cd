@@ -6,7 +6,7 @@
       "type": "trigger",
       "transitions": [
         {
-          "next": "send_message_1",
+          "next": "get_customer_info",
           "event": "incomingMessage"
         },
         {
@@ -39,12 +39,115 @@
       ],
       "properties": {
         "offset": {
-          "x": -30,
-          "y": 550
+          "x": 470,
+          "y": 1190
         },
-        "workflow": "WW7757c9644b834ee4bc0aec17268b4049",
-        "channel": "TCfbdf04f0ec7ae70dc820185bb0ce90c4",
+        "workflow": "WWf680b2352df75ddb7eb298f2c7c05f60",
+        "channel": "TC1a36de1be6af432651313f0ee40fb8c8",
         "attributes": "{\"name\": \"{{trigger.message.ChannelAttributes.from}}\", \"channelType\": \"{{trigger.message.ChannelAttributes.channel_type}}\", \"channelSid\": \"{{trigger.message.ChannelSid}}\"}"
+      }
+    },
+    {
+      "name": "get_customer_info",
+      "type": "make-http-request",
+      "transitions": [
+        {
+          "next": "set_variables_1",
+          "event": "success"
+        },
+        {
+          "next": "send_message_2",
+          "event": "failed"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": 60,
+          "y": 180
+        },
+        "method": "GET",
+        "content_type": "application/x-www-form-urlencoded;charset=utf-8",
+        "url": "http://841d3eefb537.ngrok.io/customer"
+      }
+    },
+    {
+      "name": "set_variables_1",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "split_1",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "{{widgets.get_customer_info.parsed.meter_nr}}",
+            "key": "meter_nr"
+          },
+          {
+            "value": "{{widgets.get_customer_info.parsed.name}}",
+            "key": "name"
+          }
+        ],
+        "offset": {
+          "x": 120,
+          "y": 430
+        }
+      }
+    },
+    {
+      "name": "split_1",
+      "type": "split-based-on",
+      "transitions": [
+        {
+          "next": "send_message_2",
+          "event": "noMatch"
+        },
+        {
+          "next": "send_message_1",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to 12345",
+              "arguments": [
+                "{{flow.variables.meter_nr}}"
+              ],
+              "type": "equal_to",
+              "value": "12345"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "input": "{{flow.variables.meter_nr}}",
+        "offset": {
+          "x": 70,
+          "y": 720
+        }
+      }
+    },
+    {
+      "name": "send_message_2",
+      "type": "send-message",
+      "transitions": [
+        {
+          "event": "sent"
+        },
+        {
+          "event": "failed"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": -61,
+          "y": 991
+        },
+        "service": "{{trigger.message.InstanceSid}}",
+        "channel": "{{trigger.message.ChannelSid}}",
+        "from": "{{flow.channel.address}}",
+        "to": "{{contact.channel.address}}",
+        "body": "Sorry, not the right customer for us"
       }
     },
     {
@@ -61,14 +164,14 @@
       ],
       "properties": {
         "offset": {
-          "x": 0,
-          "y": 270
+          "x": 460,
+          "y": 920
         },
         "service": "{{trigger.message.InstanceSid}}",
         "channel": "{{trigger.message.ChannelSid}}",
         "from": "{{flow.channel.address}}",
         "to": "{{contact.channel.address}}",
-        "body": "Hello, welcome to the chat! Give us a minute to find the right agent for you!"
+        "body": "Hello  {{flow.variables.name}}"
       }
     }
   ],
